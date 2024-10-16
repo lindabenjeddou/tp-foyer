@@ -3,6 +3,8 @@ package tn.esprit.tpfoyer.control;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tpfoyer.entity.Etudiant;
+import tn.esprit.tpfoyer.repository.EtudiantRepository;
+import tn.esprit.tpfoyer.service.EtudiantServiceImpl;
 import tn.esprit.tpfoyer.service.IEtudiantService;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
 @RequestMapping("/etudiant")
 public class EtudiantRestController {
 
-    IEtudiantService etudiantService;
+    EtudiantServiceImpl etudiantService;
 
 
     @GetMapping("/retrieve-all-etudiants")
@@ -22,7 +24,10 @@ public class EtudiantRestController {
         return listEtudiants;
     }
 
-
+    @GetMapping("/trouver-etudiants-par-reservation/{reservationId}")
+    public List<Etudiant> trouverEtudiantsParReservation(@PathVariable("reservationId") String reservationId) {
+        return etudiantService.trouverEtudiantsParReservation(reservationId);
+    }
 
 
 
