@@ -1,11 +1,16 @@
 package tn.esprit.tpfoyer.service;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.repository.EtudiantRepository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -34,6 +39,10 @@ public class EtudiantServiceImpl implements IEtudiantService {
     {
         return etudiantRepository.findEtudiantByCinEtudiant(cin);
     }
+    public List<Etudiant> trouverEtudiantsParReservation(String reservationId) {
+        return etudiantRepository.findByReservations_IdReservation(reservationId);
+    }
+
 
 
 
