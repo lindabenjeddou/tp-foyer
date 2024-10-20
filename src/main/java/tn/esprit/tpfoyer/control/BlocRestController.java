@@ -72,4 +72,12 @@ public class BlocRestController {
 
     }
 
+    // Endpoint pour calculer le taux d'occupation d'un bloc
+@GetMapping("/bloc/{bloc-id}/occupation-rate")
+@Operation(description = "Calcul du taux moyen d'occupation des chambres pour un bloc donné")
+public double getOccupationRate(@PathVariable("bloc-id") Long blocId) {
+    return blocService.calculateOccupationRateForBloc(blocId);
+}
+
+
 }

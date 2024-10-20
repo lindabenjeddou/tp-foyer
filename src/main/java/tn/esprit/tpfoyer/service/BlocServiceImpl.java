@@ -78,4 +78,31 @@ public class BlocServiceImpl  implements IBlocService {
         return blocRepository.findAllByNomBlocAndCapaciteBloc(nb,  c);
     }
 
+    @Transactional
+public double calculateOccupationRateForBloc(Long blocId) {
+    // Récupérer le bloc par son ID
+    Bloc bloc = blocRepository.findById(blocId)
+        .orElseThrow(() -> new RuntimeException("Bloc non trouvé"));
+
+    // Récupérer la liste des chambres du bloc
+    List<Chambre> chambres = bloc.getChambres();
+    
+    // Vérifier si le bloc contient des chambres
+    if (chambres == null || chambres.isEmpty()) {
+        throw new RuntimeException("Aucune chambre trouvée pour ce bloc.");
+    }
+
+    // Compter le nombre de chambres occupées
+    long chambresOccupees = chambres.stream()
+        .filter(Chambre::isOccupied)
+        .count();
+
+    // Calculer le taux d'occupation
+    double tauxOccupation = (double) chambresOccupees / chambres.size() * 100;
+
+    // Retourner le taux d'occupation
+    return tauxOccupation;
+}
+
+
 }
