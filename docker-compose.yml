@@ -1,0 +1,35 @@
+
+version: '3.8'
+
+services:
+  backend:
+    image: nexus:8081/mahasallemi/tp-foyer:5.0.0
+    container_name: backend_app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SERVER_PORT=8089
+      - SERVER_SERVLET_CONTEXT_PATH=/tpfoyer
+    ports:
+      - "8089:8089"  # Port exposé pour le backend
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0  # Ajustez la version si nécessaire
+    container_name: mysql_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+    ports:
+      - "3306:3306"  # Expose le port pour la connexion WAMP MySQL
+    volumes:
+      - db_data:/var/lib/mysql  # Conserve les données entre redémarrages
+
+volumes:
+  db_data:
