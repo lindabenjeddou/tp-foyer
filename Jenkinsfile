@@ -32,6 +32,23 @@ pipeline {
                 '''
             }
         }
+        stage('Unit Tests - JUnit & Mockito') {  
+            steps {  
+                echo 'Running unit tests...'  
+                script {  
+                    // Run tests with JUnit and Mockito  
+                    sh 'mvn test'  
+                }  
+            }  
+            post {  
+                always {  
+                    junit 'target/surefire-reports/*.xml' // Collect JUnit test results  
+                }  
+                failure {  
+                    echo 'Unit tests failed!'  
+                }  
+            }  
+        }  
 
         stage('Code Quality Test') {
             steps {
