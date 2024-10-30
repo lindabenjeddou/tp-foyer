@@ -4,7 +4,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8089
 
 # Variables pour Nexus (à adapter selon votre configuration)
-ARG NEXUS_URL=http://http://192.168.158.138:8081
+ARG NEXUS_URL=http://192.168.158.138:8081
 ARG REPO_PATH=repository/maven-releases/tn/esprit/tp-foyer/5.0.0/tp-foyer-5.0.0.jar
 ARG NEXUS_USERNAME=admin
 ARG NEXUS_PASSWORD=admin
