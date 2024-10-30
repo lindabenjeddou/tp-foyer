@@ -82,6 +82,14 @@ pipeline {
                 }
             }
         }
+        stage('Push to Docker Hub') {
+            steps {
+                sh '''
+                docker login -u ikbel345 -p 223JMT2254
+                docker push ikbel345/tp-foyer:5.0.0
+                '''
+            }
+        }
     }
 
     post {
