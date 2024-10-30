@@ -57,6 +57,31 @@ pipeline {
                 }
             }
         }
+        stage('Prepare for Nexus Deployment') {
+            steps {
+                echo "Preparing for Nexus deployment"
+                script {
+                    def settingsFile = '/usr/share/maven/conf/settings.xml'
+                    if (fileExists(settingsFile)) {
+                        sh "cat ${settingsFile}"
+                    } else {
+                        error "Maven settings.xml file not found at ${settingsFile}"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                echo "Deploying to Nexus"
+                withCredentials([usernamePassword(credentialsId: 'deploymentRepo', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh '''
+                    mvn deploy \
+                        -DaltDeploymentRepository=deploymentRepo::default::http://${NEXUS_USERNAME}:${NEXUS_PASSWORD}@172.17.0.4:8081/repository/maven-releases/
+                    '''
+                }
+            }
+        }
     }
 
     post {
