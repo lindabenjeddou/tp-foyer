@@ -68,8 +68,7 @@ class UniversiteServiceImplTest {
         assertEquals("ENIG", updatedUniversities.get(1).getNomUniversite());
 
         // Verify the repository method was called
-        verify(universit
-                eRepository, times(1)).saveAll(universitiesToUpdate);
+        verify(universiteRepository, times(1)).saveAll(universitiesToUpdate);
     }
 
     @Test
