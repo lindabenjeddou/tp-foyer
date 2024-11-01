@@ -84,10 +84,17 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                sh '''
-                docker login -u ikbel345 -p 223JMT2254
-                docker push ikbel345/tp-foyer:5.0.0
-                '''
+                withCredentials([usernamePassword(credentialsId: 'docker-ikbel', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${DOCKER_IMAGE}
+                    '''
+            }
+        }
+        stage('Run with Docker Compose') {
+            steps {
+                echo 'Running Docker Compose...'
+                sh 'docker-compose up -d'
             }
         }
     }
