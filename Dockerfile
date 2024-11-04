@@ -1,4 +1,8 @@
-FROM openjdk:17-jdk-alpine
+
+FROM openjdk:11
+
+ADD http://192.168.164.133:8081/repository/maven-releases/tn/esprit/tp-foyer/5.0.0/tp-foyer-5.0.0.jar /tp-foyer-5.0.0.jar
+
 EXPOSE 8089
-ADD target/tp-foyer-5.0.0.jar tp-foyer-5.0.0.jar
-ENTRYPOINT["java","-jar","/tp-foyer-5.0.0.j"]
+
+CMD ["java", "-jar", "/app/app.jar"]
