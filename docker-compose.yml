@@ -34,6 +34,19 @@ services:
       timeout: 10s
       retries: 5
 
+  # Service pour Prometheus
+  prometheus:
+    image: prom/prometheus:latest  # Utilisez l'image officielle de Prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"  # Exposez le port Prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Montez le fichier de configuration Prometheus
+    networks:
+      - my-network  # Assurez-vous que Prometheus est sur le même réseau
+    depends_on:
+      - foyer-app  # Assurez-vous que Prometheus attend que Spring Boot soit lancé
+
 volumes:
   mysql_data:
 
