@@ -36,9 +36,7 @@ pipeline {
         stage('Unit Tests - JUnit & Mockito') {  
             steps {  
                 echo 'Running unit tests...'  
-                script {  
-                    sh 'mvn test'  
-                }  
+                sh 'mvn test'  
             }  
             post {  
                 always {  
@@ -87,24 +85,26 @@ pipeline {
         stage('Docker') {  
             steps {  
                 echo 'Building Docker image...'  
-                sh '/usr/bin/docker build -t ikbel345/tp-foyer:5.0.0 .'  
+                sh '/usr/bin/docker build -t ${DOCKER_IMAGE} .'  
             }  
         }  
 
         stage('Docker Hub') {  
             steps {
                 echo 'Logging in to Docker Hub...'  
-                sh '''
-                docker login -u ikbel345 -p 223JMT2254
-                docker push ikbel345/tp-foyer-5.0.0
-                '''
+                withCredentials([usernamePassword(credentialsId: 'docker-ikbel', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    echo "$DOCKER_PASS" | /usr/bin/docker login -u "$DOCKER_USER" --password-stdin
+                    /usr/bin/docker push ${DOCKER_IMAGE}
+                    '''
+                }
             }  
         } 
 
         stage('Run with Docker Compose') {
             steps {
                 echo 'Running Docker Compose...'
-                sh 'docker-compose up -d'
+                sh '/usr/bin/docker-compose up -d'
             }
         }
     }
