@@ -1,4 +1,5 @@
 
+# Use a base image with Java 17
 FROM openjdk:17-jdk-slim
 
 # Set environment variables for the application
