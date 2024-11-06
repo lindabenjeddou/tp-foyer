@@ -53,7 +53,7 @@ pipeline {
         stage('Code Quality Test') {
             steps {
                 withSonarQubeEnv('Sonar') {
-                    sh 'mvn sonar:sonar -Dsonar.host.url=http://172.17.0.2:9000 -Dsonar.login=squ_bdf4362b8971c688e1ac355bd433ff1a1664f75d'
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://172.17.0.3:9000 -Dsonar.login=squ_bdf4362b8971c688e1ac355bd433ff1a1664f75d'
                 }
             }
         }
@@ -78,7 +78,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'deploymentRepo', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh '''
                     mvn deploy \
-                        -DaltDeploymentRepository=deploymentRepo::default::http://${NEXUS_USERNAME}:${NEXUS_PASSWORD}@172.17.0.3:8081/repository/maven-releases/
+                        -DaltDeploymentRepository=deploymentRepo::default::http://${NEXUS_USERNAME}:${NEXUS_PASSWORD}@172.17.0.2:8081/repository/maven-releases/
                     '''
                 }
             }
