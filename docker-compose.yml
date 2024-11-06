@@ -3,62 +3,40 @@ version: '3.8'
 services:
   # Service pour l'application Spring Boot
   foyer-app:
-    image: linda296/tp-foyer-5.0.0  # Utilisez l'image pushée
+    image: linda296/tp-foyer-5.0.0 # Use the pushed image
     ports:
       - "8089:8089"
     depends_on:
       mysql-db:
-        condition: service_healthy  # Attendre que MySQL soit prêt
+        condition: service_healthy  # Wait for MySQL to be healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
-      SERVER_SERVLET_CONTEXT_PATH: /tpfoyer
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-      MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: "true"
     networks:
-      - my-network  # Spécifiez le réseau
+      - my-network  # Specify the network
 
   # Service pour la base de données MySQL
   mysql-db:
-    image: mysql:5.7  # Utiliser MySQL 5.7
+    image: mysql:5.7  # Use MySQL 5.7
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Mot de passe root de MySQL
-      MYSQL_DATABASE: db  # Nom de la base de données
+      MYSQL_ROOT_PASSWORD: rootpassword  # Set MySQL root password
+      MYSQL_DATABASE: db  # Database name
     ports:
-      - "3306:3306"  # Exposez le port MySQL
+      - "3306:3306"  # Expose MySQL port
     volumes:
-      - mysql_data:/var/lib/mysql  # Persister les données de MySQL
+      - mysql_data:/var/lib/mysql  # Persist MySQL data
     networks:
-      - my-network  # Spécifiez le réseau
-    healthcheck:  # Ajoutez une vérification de santé pour MySQL
+      - my-network  # Specify the network
+    healthcheck:  # Add health check for MySQL
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
       interval: 5s
       timeout: 10s
       retries: 5
 
-  # Service pour Prometheus
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Montez le fichier de configuration de Prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - my-network  # Spécifiez le réseau
-
-  # Service pour Grafana
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-    depends_on:
-      - prometheus
-    networks:
-      - my-network  # Spécifiez le réseau
 
 volumes:
   mysql_data:
 
 networks:
-  my-network:  # Définissez le réseau personnalisé
+  my-network:  # Define the custom network
