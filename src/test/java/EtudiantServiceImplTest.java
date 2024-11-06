@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-public class EtudiantServiceImplTest {
+ class EtudiantServiceImplTest {
     @Mock
     private EtudiantRepository etudiantRepository;
 
