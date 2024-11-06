@@ -85,6 +85,14 @@ pipeline {
                 }
             }
         }
+        stage('Deploy Image'){
+            staeps {
+                sh '''
+                docker login -u ikbel345 -p 223JMT2254
+                docker push ikbel345/tp-foyer:5.0.0
+                '''
+            }
+        }
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-ikbel', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
