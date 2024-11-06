@@ -87,7 +87,7 @@ pipeline {
         stage('Docker') {  
             steps {  
                 echo 'Building Docker image...'  
-                sh 'docker build -t ikbel345/tp-foyer:5.0.0 .'  
+                sh '/usr/bin/docker build -t ikbel345/tp-foyer:5.0.0 .'  
             }  
         }  
 
