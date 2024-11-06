@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_IMAGE = 'ikbel345/tp-foyer:5.0.0'
+    }
     tools {
         maven 'MAVEN_HOME'
         jdk 'JAVA_HOME'
