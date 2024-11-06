@@ -84,16 +84,22 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Docker') {  
+            steps {  
+                echo 'Building Docker image...'  
+                sh 'docker build -t ikbel345/tp-foyer-5.0.0 .'  
+            }  
+        }  
+
+        stage('Docker Hub') {  
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-ikbel', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                        echo "$DOCKER_PASS" | /usr/bin/docker login -u "$DOCKER_USER" --password-stdin
-                        docker push ${DOCKER_IMAGE}
-                    '''
-                }
-            }
-        }
+                echo 'Logging in to Docker Hub...'  
+                sh '''
+                docker login -u ikbel345 -p 223JMT2254
+                docker push ikbel345/tp-foyer-5.0.0
+                '''
+            }  
+        } 
 
         stage('Run with Docker Compose') {
             steps {
