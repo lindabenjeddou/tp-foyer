@@ -1,4 +1,3 @@
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
- class EtudiantServiceImplTest {
+class EtudiantServiceImplTest {
     @Mock
     private EtudiantRepository etudiantRepository;
 
@@ -97,4 +96,3 @@ import static org.mockito.Mockito.*;
         verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(12345678L);
     }
 }
-
