@@ -1,8 +1,10 @@
-
 FROM openjdk:11
 
-ADD http://192.168.164.133:8081/repository/maven-releases/tn/esprit/tp-foyer/5.0.0/tp-foyer-5.0.0.jar /tp-foyer-5.0.0.jar
+# Télécharge le fichier JAR et le renomme pour correspondre au nom dans CMD
+ADD http://192.168.164.133:8081/repository/maven-releases/tn/esprit/tp-foyer/5.0.0/tp-foyer-5.0.0.jar /app/tp-foyer.jar
 
+# Expose le port sur lequel l'application s'exécute
 EXPOSE 8089
 
-CMD ["java", "-jar", "/app/app.jar"]
+# Démarre l'application
+CMD ["java", "-jar", "/app/tp-foyer.jar"]
