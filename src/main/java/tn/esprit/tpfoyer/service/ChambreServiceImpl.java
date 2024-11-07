@@ -25,7 +25,7 @@ public class ChambreServiceImpl implements IChambreService {
         return listC;
     }
 
-    public Chambre retrieveChambre(Long chambreId) {
+    public Chambre retrieveChambre(int chambreId) {
         Chambre c = chambreRepository.findById(chambreId).get();
         return c;
     }
@@ -40,7 +40,7 @@ public class ChambreServiceImpl implements IChambreService {
         return c;
     }
 
-    public void removeChambre(Long chambreId) {
+    public void removeChambre(int chambreId) {
         chambreRepository.deleteById(chambreId);
     }
 

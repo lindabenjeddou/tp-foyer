@@ -25,7 +25,7 @@ public class ChambreRestController {
 
 
     @GetMapping("/retrieve-chambre/{chambre-id}")
-    public Chambre retrieveChambre(@PathVariable("chambre-id") Long chId) {
+    public Chambre retrieveChambre(@PathVariable("chambre-id") int chId) {
         Chambre chambre = chambreService.retrieveChambre(chId);
         return chambre;
     }
@@ -39,7 +39,7 @@ public class ChambreRestController {
 
     // http://localhost:8089/tpfoyer/chambre/remove-chambre/{chambre-id}
     @DeleteMapping("/remove-chambre/{chambre-id}")
-    public void removeChambre(@PathVariable("chambre-id") Long chId) {
+    public void removeChambre(@PathVariable("chambre-id") int chId) {
         chambreService.removeChambre(chId);
     }
 

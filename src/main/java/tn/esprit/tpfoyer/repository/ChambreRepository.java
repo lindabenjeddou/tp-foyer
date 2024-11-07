@@ -10,7 +10,7 @@ import tn.esprit.tpfoyer.entity.TypeChambre;
 import java.util.List;
 
 @Repository
-public interface ChambreRepository extends JpaRepository<Chambre, Long> {
+public interface ChambreRepository extends JpaRepository<Chambre,Integer> {
 
 
 

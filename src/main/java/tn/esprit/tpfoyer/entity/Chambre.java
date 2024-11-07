@@ -19,9 +19,9 @@ public class Chambre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long idChambre;
+    int idChambre;
 
-    long numeroChambre;
+    int numeroChambre;
 
     @Enumerated(EnumType.STRING)
     TypeChambre typeC;

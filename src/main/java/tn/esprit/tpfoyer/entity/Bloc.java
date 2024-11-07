@@ -20,10 +20,15 @@ public class Bloc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long idBloc;
+    int idBloc;
 
     String nomBloc;
     long capaciteBloc;
+
+    public Bloc(int idBloc, String nomBloc) {
+        this.idBloc = idBloc;
+        this.nomBloc = nomBloc;
+    }
 
     @ManyToOne(cascade = CascadeType.ALL)
     Foyer foyer;
