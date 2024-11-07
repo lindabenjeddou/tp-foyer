@@ -4,7 +4,7 @@
     services:
       # Service pour l'application Spring Boot
       foyer-app:
-        image: firaschargui/tp-foyer-5.0.0 # Use the pushed image
+        image: firas669/tp-foyer-5.0.0 # Use the pushed image
         ports:
           - "8089:8089"
         depends_on:
