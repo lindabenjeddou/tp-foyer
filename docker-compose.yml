@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - db:/var/lib/mysql
+
+  tp-foyer:
+    depends_on:
+      - mysqldb
+    image: firaschargui/tp-foyer
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+    ports:
+      - "9095:9095"
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
