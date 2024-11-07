@@ -44,7 +44,7 @@ import java.util.List;
 
   // Récupérer les Blocs qui ont une capacité supérieure à 50 :
 
-   List<Bloc> findAllByCapaciteBlocGreaterThan(long c);
+   List<Bloc> findAllByCapaciteBlocGreaterThan(int c);
 
 
 

@@ -1,6 +1,5 @@
 package tn.esprit.tpfoyer.service;
 
-
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,52 +10,46 @@ import tn.esprit.tpfoyer.repository.BlocRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-@Slf4j  // Simple Loggining Façade For Java
-public class BlocServiceImpl  implements IBlocService {
+@Slf4j  // Simple Logging Façade for Java
+public class BlocServiceImpl implements IBlocService {
 
+    private final BlocRepository blocRepository;
 
-    BlocRepository blocRepository;
-
-    @Scheduled(fixedRate = 30000) // millisecondes // cron fixedRate
+    @Scheduled(fixedRate = 30000) // milliseconds, cron fixedRate
     //@Scheduled(cron="0/15 * * * * *")
     public List<Bloc> retrieveAllBlocs() {
-
         List<Bloc> listB = blocRepository.findAll();
-        log.info("taille totale : " + listB.size());
-        for (Bloc b: listB) {
-            log.info("Bloc : " + b);
+        log.info("Total size: " + listB.size());
+        for (Bloc b : listB) {
+            log.info("Bloc: " + b);
         }
-
         return listB;
     }
 
-    // Exemple sans Keywords :
+    // Example without keywords
     @Transactional
     public List<Bloc> retrieveBlocsSelonCapacite(long c) {
-
         List<Bloc> listB = blocRepository.findAll();
         List<Bloc> listBselonC = new ArrayList<>();
-
-        for (Bloc b: listB) {
-            if (b.getCapaciteBloc()>=c)
+        for (Bloc b : listB) {
+            if (b.getCapaciteBloc() >= c) {
                 listBselonC.add(b);
+            }
         }
-
         return listBselonC;
     }
 
-    @Transactional
-    public Bloc retrieveBloc(Long blocId) {
-
-        return blocRepository.findById(blocId).get();
-    }
-
+   // @Transactional
+    //public Optional<Bloc> retrieveBloc(int blocId) {
+        // Corrected to return Optional<Bloc> and handle findById correctly
+        //return blocRepository.findById(blocId);
+    //}
 
     public Bloc addBloc(Bloc c) {
-
         return blocRepository.save(c);
     }
 
@@ -64,18 +57,16 @@ public class BlocServiceImpl  implements IBlocService {
         return blocRepository.save(bloc);
     }
 
-    public void removeBloc(Long blocId) {
+    public void removeBloc(int blocId) {
         blocRepository.deleteById(blocId);
     }
-
-
 
     public List<Bloc> trouverBlocsSansFoyer() {
         return blocRepository.findAllByFoyerIsNull();
     }
 
-    public List<Bloc> trouverBlocsParNomEtCap(String nb, long c) {
-        return blocRepository.findAllByNomBlocAndCapaciteBloc(nb,  c);
+    @Override
+    public List<Bloc> trouverBlocsParNomEtCap(String nb, int c) {
+        return blocRepository.findAllByNomBlocAndCapaciteBloc(nb, c);
     }
-
 }

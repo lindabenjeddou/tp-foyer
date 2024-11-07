@@ -31,7 +31,7 @@ public class BlocRestController {
 
     // http://localhost:8089/tpfoyer/bloc/retrieve-bloc/8
     @GetMapping("/retrieve-bloc/{bloc-id}")
-    public Bloc retrieveBloc(@PathVariable("bloc-id") Long bId) {
+    public Bloc retrieveBloc(@PathVariable("bloc-id") int bId) {
         Bloc bloc = blocService.retrieveBloc(bId);
         return bloc;
 
@@ -46,7 +46,7 @@ public class BlocRestController {
 
     // http://localhost:8089/tpfoyer/bloc/remove-bloc/{bloc-id}
     @DeleteMapping("/remove-bloc/{bloc-id}")
-    public void removeBloc(@PathVariable("bloc-id") Long chId) {
+    public void removeBloc(@PathVariable("bloc-id") int chId) {
         blocService.removeBloc(chId);
     }
 
@@ -66,7 +66,7 @@ public class BlocRestController {
     @GetMapping("/get-bloc-nb-c/{nb}/{c}")
     public List<Bloc> recuperBlocsParNomEtCap(
             @PathVariable("nb") String nb,
-            @PathVariable("c") long c) {
+            @PathVariable("c") int c) {
 
         return blocService.trouverBlocsParNomEtCap(nb, c);
 

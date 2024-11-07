@@ -1,0 +1,108 @@
+pipeline {
+    agent any
+
+    environment {
+        SONARQUBE_TOKEN = credentials('devops')
+        SONARQUBE_URL = 'http://192.168.75.137:9000/'
+    }
+
+    stages {
+        stage('Getting code from GITHUB') {
+            steps {
+                echo 'Pulling code from GitHub...'
+                git branch: 'Chambre',
+                 credentialsId: 'GitHub',
+                    url: 'https://github.com/lindabenjeddou/tp-foyer.git'
+            }
+        }
+
+        stage('MVN clean') {
+            steps {
+                echo 'Running Maven clean...'
+                sh 'mvn clean'
+            }
+        }
+
+        stage('MVN package') {
+            steps {
+                echo 'Running Maven package...'
+                sh 'mvn package -DskipTests'
+            }
+        }
+
+        stage('MVN build') {
+            steps {
+                echo 'Running Maven build...'
+                sh 'mvn install -DskipTests'
+            }
+        }
+        stage("TestMOCKITO") {
+            steps {
+                //TESTTT
+                sh 'mvn test'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                // Ajoutez cette commande pour exécuter l'analyse SonarQube
+                    sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.75.137:9000 -Dsonar.login=admin -Dsonar.password=sonar'
+            }
+        }
+
+        stage('Nexus') {
+            steps {
+                echo 'Running Maven deploy...'
+                sh 'mvn deploy'
+            }
+        }
+
+
+       stage('Build Docker Image') {
+            steps {
+                echo "Building Docker image"
+                sh 'docker build -t yacin9/timesheet-devops:1.0.0 .'
+
+            }
+        }
+
+        stage('Docker Hub') {
+            steps {
+                script {
+                    // Utilisation des credentials de Jenkins
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh """
+                        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                        docker push yacin9/timesheet-devops:1.0.0
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Docker Compose Up') {
+            steps {
+                script {
+                    // Lancer les conteneurs en mode détaché
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+
+
+        stage('Test Grafana') {
+            steps {
+                script {
+                    echo "Vérification de l'accessibilité de Grafana"
+                    // Remplace <GRAFANA_IP> et <GRAFANA_PORT> par les valeurs appropriées
+                    def response = sh(script: "curl -s -L -o /dev/null -w '%{http_code}' http://192.168.50.4:3000", returnStdout: true).trim()
+                    if (response != '200') {
+                        error "Grafana n'est pas accessible, code HTTP: ${response}"
+                    } else {
+                        echo "Grafana est accessible avec le code HTTP: ${response}"
+                    }
+                }
+            }
+        }
+
+    }
+}
