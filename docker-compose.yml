@@ -27,7 +27,7 @@
                 "spring.datasource.password" : "",
                 "spring.jpa.show-sql": "true",
                 "spring.jpa.hibernate.ddl-auto" : "update",
-                "server.servlet.context-path": "/api",
+                "server.servlet.context-path": "/tpfoyer",
                 "server.port": "8085"
               }'
             volumes:
