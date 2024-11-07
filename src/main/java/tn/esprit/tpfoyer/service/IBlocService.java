@@ -7,7 +7,7 @@ import java.util.List;
 public interface IBlocService {
 
     public List<Bloc> retrieveAllBlocs();
-   // public Bloc retrieveBloc(int blocId);
+    public Bloc retrieveBloc(int blocId);
     public Bloc addBloc(Bloc c);
     public void removeBloc(int blocId);
     public Bloc modifyBloc(Bloc bloc);

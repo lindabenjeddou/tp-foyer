@@ -30,6 +30,11 @@ public class BlocServiceImpl implements IBlocService {
         return listB;
     }
 
+    @Override
+    public Bloc retrieveBloc(int blocId) {
+        return null;
+    }
+
     // Example without keywords
     @Transactional
     public List<Bloc> retrieveBlocsSelonCapacite(long c) {
@@ -53,13 +58,15 @@ public class BlocServiceImpl implements IBlocService {
         return blocRepository.save(c);
     }
 
+    @Override
+    public void removeBloc(int blocId) {
+
+    }
+
     public Bloc modifyBloc(Bloc bloc) {
         return blocRepository.save(bloc);
     }
 
-    public void removeBloc(int blocId) {
-        blocRepository.deleteById(blocId);
-    }
 
     public List<Bloc> trouverBlocsSansFoyer() {
         return blocRepository.findAllByFoyerIsNull();
