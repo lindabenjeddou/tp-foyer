@@ -25,15 +25,6 @@ public class Reservation {
     boolean estValide;
 
 
-
-
-
-
-
-
-
-
-
     @ManyToMany
     Set<Etudiant> etudiants;
 
